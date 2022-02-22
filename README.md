@@ -33,3 +33,19 @@ LTUC Day 11 Task.
 - I created an error handler.
 - I created a new end point that take the parameter from the URl where we found it inside req.query.
 - Run the server by node server.js.
+<br>
+
+# Movies-Library - Version 3.0
+
+## WRRC 
+![image](WRRC3.0.jpg)
+
+## Getting Started
+- Install PostgreSQL.
+- sqlstart to run the Postgres server.
+- Create the databse.
+- npm install pg.
+- Create the database URL.
+- Configurations for pg (require, new pg.Client, clint.connect).
+- app.use(express.json()) to get into the body of request.
+- Build the functions responsible of saving the object into the database and viewing it when requested.
