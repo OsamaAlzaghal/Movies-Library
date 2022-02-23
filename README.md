@@ -49,3 +49,12 @@ LTUC Day 11 Task.
 - Configurations for pg (require, new pg.Client, clint.connect).
 - app.use(express.json()) to get into the body of request.
 - Build the functions responsible of saving the object into the database and viewing it when requested.
+<br>
+
+# Movies-Library - Version 4.0
+
+## WRRC 
+![image](WRRC4.0.jpg)
+
+## Getting Started
+- Created functions to handle PUT,DELETE and GET requests.
