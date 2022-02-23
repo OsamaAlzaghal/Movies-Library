@@ -28,7 +28,11 @@ app.get("/topRated", topHandler);
 app.get("/upcoming", upcomingHandler);
 app.post("/addMovie", addHandler);
 app.get("/getMovie", getHandler);
-app.use(serverError);
+app.get("/movieById/:id", getMovieById);
+app.put("/updateMovie/:id", updateMovieHandler);
+app.delete("/deleteMovie/:id", deleteMovieHandler);
+
+// app.use(serverError);
 app.get("*", notFound);
 
 function moviesHandler(req, res) {
@@ -173,6 +177,61 @@ function getHandler(req, res) {
     .query(sql)
     .then((result) => {
       return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      serverError(error, req, res);
+    });
+}
+
+function getMovieById(req, res) {
+  let id = req.params.id;
+  const sql = `SELECT * FROM addMovies WHERE id = $1;`;
+  const values = [id];
+
+  client
+    .query(sql, values)
+    .then((result) => {
+      return res.status(200).json(result.rows[0]);
+    })
+    .catch((error) => {
+      serverError(error, req, res);
+    });
+}
+
+function updateMovieHandler(req, res) {
+  const id = req.params.id;
+  const recipe = req.body;
+
+  const sql = `UPDATE addMovies SET title = $1, release_date = $2,poster_path = $3, overview = $4, comment = $5 WHERE id = $6 RETURNING *;`;
+  const values = [
+    recipe.title,
+    recipe.release_date,
+    recipe.poster_path,
+    recipe.overview,
+    recipe.comment,
+    id,
+  ];
+
+  client
+    .query(sql, values)
+    .then((result) => {
+      return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      serverError(error, req, res);
+    });
+}
+
+function deleteMovieHandler(req, res) {
+  const id = req.params.id;
+
+  const sql = `DELETE FROM addMovies WHERE id=$1;`;
+  const values = [id];
+
+  client
+    .query(sql, values)
+    .then(() => {
+      return res.status(204).json({});
     })
     .catch((error) => {
       serverError(error, req, res);
