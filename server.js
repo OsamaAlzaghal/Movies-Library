@@ -9,7 +9,14 @@ const APIKEY = process.env.APIKEY;
 const PORT = process.env.PORT;
 const pg = require("pg");
 const DATABASE_URL = process.env.DATABASE_URL;
-const client = new pg.Client(DATABASE_URL);
+
+// const client = new pg.Client(DATABASE_URL);
+
+//for heroku
+const client = new pg.Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
 
 function Movies(id, title, release_date, poster_path, overview) {
   this.id = id;
@@ -32,7 +39,7 @@ app.get("/movieById/:id", getMovieById);
 app.put("/updateMovie/:id", updateMovieHandler);
 app.delete("/deleteMovie/:id", deleteMovieHandler);
 
-// app.use(serverError);
+app.use(serverError);
 app.get("*", notFound);
 
 function moviesHandler(req, res) {
