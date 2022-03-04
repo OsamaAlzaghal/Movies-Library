@@ -5,11 +5,12 @@ const app = express();
 const dotenv = require("dotenv");
 const axios = require("axios");
 dotenv.config();
+const cors = require("cors");
 const APIKEY = process.env.APIKEY;
 const PORT = process.env.PORT;
 const pg = require("pg");
 const DATABASE_URL = process.env.DATABASE_URL;
-
+//local database
 // const client = new pg.Client(DATABASE_URL);
 
 //for heroku
@@ -25,7 +26,7 @@ function Movies(id, title, release_date, poster_path, overview) {
   this.poster_path = poster_path;
   this.overview = overview;
 }
-
+app.use(cors());
 app.use(express.json());
 app.get("/", moviesHandler);
 app.get("/favorite", favoriteMovies);
